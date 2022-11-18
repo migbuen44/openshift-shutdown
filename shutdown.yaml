@@ -1,0 +1,10 @@
+---
+# - hosts: all
+- name: Shutdown cluster
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: shutdown nodes
+    shell: |
+    for node in $(oc get nodes -o jsonpath='{.items[*].metadata.name}'); do oc debug node/${node} -- chroot /host shutdown -h 1; done
+   
